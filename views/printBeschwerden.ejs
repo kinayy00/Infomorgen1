@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+ 
+ 
+  <style>
+    .selected {
+      background-color: green;
+      color: white;
+    }
+  </style>
+</head>
+ 
+<body>
+  <div class="px-5">
+      <div class="flex flex-row pt-10 px-2">
+          <div class="w-4/6 md:w-5/6 lg:w-5/6">
+                  <h1 class="xl:text-2xl md:text-2xl text-lg font-bold mb-2 lg:mb-4 color-primary">Übersichtsseite
+                      Kontaktformular
+                  </h1>
+              <div class="flex flex-row space-x-6 border-b-2 border-gray-200 mb-4 cursor-pointer md:text-sm text-xs">
+                  <p class="py-3 font-bold color-primary text-md underline" onclick="redirectToPrintAll(this)">Alle</p>
+                  <p class="py-3 font-bold color-primary text-md" onclick="redirectToPrintAnfrage(this)">Anfrage</p>
+                  <p class="py-3 font-bold color-primary text-md" onclick="redirectToPrintBeschwerden(this)">Beschwerden </p>
+                  <p class="py-3 font-bold color-primary text-md" onclick="redirectToPrintStörungen(this)">Störung </p>
+                  <p class="py-3 font-bold color-primary text-md" onclick="redirectToPrintBeratung(this)">Beratung </p>
+              </div>
+ 
+          </div>
+          <div class="w-2/6 md:w-1/6 lg:w-1/6 grid justify-items-end">
+              <img alt="" src="./assets/img/SunriseLogo.png" class="w-14 md:w-20 lg:w-20">
+          </div>
+      </div>
+      <div class="flex flex-row pt-4">
+          <div class="flex flex-col w-1/3 px-2 md:text-xs lg:text-xs font-bold color-primary text-sm">
+              <!--Formular Anfragen-->
+              <% for (let i = 0; i < contacts.length; i++) { %>
+                <div class="flex flex-col md:flex-row lg:flex-row rounded border border-black px-2 py-3 mb-3 cursor-pointer"
+                onclick=`toggleSelected('<%= contacts[i].Typ %>', '<%= contacts[i].Technik %>', '<%= contacts[i].Vorname + ' ' + contacts[i].Nachname %>')`>
+              <div class="w-1/3"><%= contacts[i].Typ %></div>
+              <div class="w-1/3 text-center"><%= contacts[i].Technik %></div>
+              <div class="w-1/3 text-end"><%= contacts[i].Vorname + contacts[i].Nachname %></div>
+            </div>
+            <% } %>
+           
+          </div>
+          <div class="w-2/3 px-2">
+              <div class="border-2 border-red-600 rounded font-bold color-primary px-5 py-5">
+                <div class="flex flex-row text-lg border-b-2 border-gray-200 pb-3">
+                  <h3 class="w-1/3" id="selectedTyp">Beschwerden</h3>
+                  <h4 class="w-1/3 text-center" id="selectedTechnik"></h4>
+                  <div class="grid justify-items-end w-1/3">
+                      <img alt="" src="/PreviewSite/assets/img/close-16px.svg" class="w-6">
+                  </div>
+                  </div>
+                  <div class="py-5 text-md space-y-3">
+                    <p>Antragsteller\in: <span class="font-normal" id="selectedAntragsteller"></span></p>
+                    <p>Partnernetz Name: <span class="font-normal" id="selectedPartnernetzName"></span></p>
+                    <p>Kundennummer: <span class="font-normal" id="selectedKundennummer"></span></p>
+                    <p>Vorname: <span class="font-normal" id="selectedVorname"></span></p>
+                    <p>Nachname: <span class="font-normal" id="selectedNachname"></span></p>
+                    <p class="py-3">Anliegen: <span class="font-normal" id="selectedAnliegen"></span></p>
+                </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <script src="../script.js"></script>
+</body>
+     
+     
+     
+  <script>
+ 
+document.addEventListener('DOMContentLoaded', function () {
+        const deleteButtons = document.querySelectorAll('.delete-button');
+     
+ 
+        deleteButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+             
+                const contactId = button.dataset.contactId;
+ 
+                fetch('http://20.102.42.26:3000/delete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ contactId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    location.reload();s
+                   
+                })
+                .catch(error => {
+                    console.error('Error deleting contact:', error);
+                    // Handle the error, update the UI, or show an serror message
+                });
+            });
+        });
+    });
+      function redirectToPrintAll() {
+      var targetPage = "/add";
+      window.location.href = targetPage;
+    }
+    function redirectToPrintAnfrage() {
+      var targetPage = "/anfrage";
+      window.location.href = targetPage;
+    }
+    function redirectToPrintBeschwerden() {
+      var targetPage = "/beschwerden";
+      window.location.href = targetPage;
+    }
+    function redirectToPrintStörungen() {
+      var targetPage = "/stoerung";
+      window.location.href = targetPage;
+    }
+    function redirectToPrintBeratung() {
+      var targetPage = "/beratung";
+      window.location.href = targetPage;
+    }
+ 
+ 
+ 
+    function selectRow() {
+      var radios = document.getElementsByName("select");
+      for (var i = 0; i < radios.length; i++) {
+        radios[i].onclick = function () {
+          var row = this.parentElement.parentElement;
+          if (this.checked) {
+            var rows = document.getElementsByClassName("selected");
+            for (var j = 0; j < rows.length; j++) {
+              rows[j].classList.remove("selected");
+            }
+            row.classList.add("selected");
+          } else {
+            row.classList.remove("selected");
+          }
+        };
+      }
+    }
+ 
+    var table = document.getElementById("table"), rIndex;
+    for (var i = 0; i < table.rows.length; i++) {
+ 
+      table.rows[i].onclick = function () {
+        rIndex = this.rowIndex;
+        document.getElementById("typname").value = this.cells[0].innerHTML;
+        document.getElementById("technikname").value = this.cells[1].innerHTML
+        document.getElementById("antragstellername").value = this.cells[2].innerHTML
+        document.getElementById("partnernetzname").value = this.cells[3].innerHTML;
+        document.getElementById("kundennummer").value = this.cells[4].innerHTML;
+        document.getElementById("vorname").value = this.cells[5].innerHTML;
+        document.getElementById("nachname").value = this.cells[6].innerHTML;
+        document.getElementById("anliegen").value = this.cells[7].innerHTML;
+        document.getElementById().value = this.cells[8].innerHTML;
+ 
+      }
+    }
+    selectRow();
+ 
+  </script>
+</body>
+ 
+</html>  

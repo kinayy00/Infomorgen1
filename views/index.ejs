@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body class="xl:mt-10 md:mt-16 mt-5">
+    <div class="container mx-auto">
+        <form class="max-w-lg mx-3 xl:mx-auto md:mx-auto" action="/add" method="POST" onsubmit="return validateForm()">
+            <h1 class="xl:text-2xl text-lg font-bold mb-2 lg:mb-4 color-primary">Wie können wir Ihnen helfen?</h1>
+            <div class="sm:grid-cols-2 gap-4">
+                <div>
+                    <h2 class="font-bold color-primary text-md">Ich möchte...</h2>
+                    <div class="space-y-3 md:space-y-5 flex flex-row text-xs md:text-sm xl:text-sm">
+                        <input type="radio" id="Anfrage" name="group1" value="Anfrage" class="hidden">
+                        <label for="Anfrage" class="radio-primary cursor-pointer">Anfrage <br> Stellen</label>
+
+                        <input type="radio" id="Beschwerden" name="group1" value="Beschwerden" class="hidden">
+                        <label for="Beschwerden" class="radio-primary cursor-pointer">Beschwerden <br> Einreichen</label>
+
+                        <input type="radio" id="Störung" name="group1" value="Störung" class="hidden">
+                        <label for="Störung" class="radio-primary cursor-pointer">Störung <br> Melden</label>
+
+                        <input type="radio" id="Beratung" name="group1" value="Beratung" class="hidden">
+                        <label for="Beratung" class="radio-primary cursor-pointer">Beratung <br> Anfragen</label>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-bold color-primary mt-2 md:mt-5 xl:mt-5 text-md">Um was geht es?</h3>
+                    <div class="space-y-3 flex flex-row space-x-6 pt-2 pb-4 md:pb-7 md:pt-5 md:space-x-12 xl:pt-4 xl:pb-7 xl:space-x-12">
+                        <div class="flex flex-col items-center mt-3">
+                            <input type="radio" id="TV" name="group2" value="TV" class="hidden">
+                            <label for="TV" class="radio-secondary cursor-pointer flex flex-col items-center">
+                                <img src="images/tv.svg" alt="" class="w-8 mb-1">
+                                <p class="text-xs md:text-sm xl:text-sm">TV</p>
+                            </label>
+                        </div>
+                    
+                        <div class="flex flex-col items-center">
+                            <input type="radio" id="Mobile" name="group2" value="Mobile" class="hidden">
+                            <label for="Mobile" class="radio-secondary cursor-pointer flex flex-col items-center">
+                                <img src="images/device-mobile.svg" alt="" class="w-8 mb-1">
+                                <p class="text-xs md:text-sm xl:text-sm">Mobile</p>
+                            </label>
+                        </div>
+                    
+                        <div class="flex flex-col items-center">
+                            <input type="radio" id="Internet" name="group2" value="Internet" class="hidden">
+                            <label for="Internet" class="radio-secondary cursor-pointer flex flex-col items-center">
+                                <img src="images/internet.svg" alt="" class="w-8 mb-1">
+                                <p class="text-xs md:text-sm xl:text-sm">Internet</p>
+                            </label>
+                        </div>
+                    
+                        <div class="flex flex-col items-center">
+                            <input type="radio" id="Kabelanschluss" name="group2" value="Kabelanschluss" class="hidden">
+                            <label for="Kabelanschluss" class="radio-secondary cursor-pointer flex flex-col items-center">
+                                <img src="images/kabelanschluss.svg" alt="" class="w-8 mb-1">
+                                <p class="text-xs md:text-sm xl:text-sm">Kabelanschluss</p>
+                            </label>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="gap-4">
+                <div class="flex flex-col">
+                    <h4 class="mt-5 mb-2 xl:mb-5 font-bold color-primary text-md">Geben Sie Ihre Daten ein:</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 pb-3">
+                        <div class="flex flex-col">
+                            <label for="Antragsteller" class="label">Antragsteller\in</label>
+                            <input type="text" id="Antragsteller" name="Antragsteller" class="input-primary md:w-5/6 xl:w-3/4">
+                            <span id="antragstellerError" style="color: red;"></span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 pb-3">
+                        <div class="flex flex-col">
+                            <label for="Partnernetz" class="label">Partnernetz Name</label>
+                            <input type="text" id="Partnernetz" name="Partnernetz" class="input-primary md:w-5/6 xl:w-3/4">
+                            <span id="partnernetzError" style="color: red;"></span>
+                        </div>
+                        <div class="flex flex-col">
+                            <label for="Kundennummer" class="label">Kundennummer</label>
+                            <input type="text" id="Kundennummer" name="Kundennummer" class="input-primary md:w-5/6 xl:w-3/4">
+                            <span id="kundennummerError" style="color: red;"></span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 pb-2 md:pb-5 xl:pb-5">
+                        <div class="flex flex-col">
+                            <label for="Vorname" class="label">Vorname</label>
+                            <input type="text" id="Vorname" name="Vorname" class="input-primary md:w-5/6 xl:w-3/4">
+                            <span id="vornameError" style="color: red;"></span>
+                        </div>
+                        <div class="flex flex-col">
+                            <label for="Nachname" class="label">Nachname</label>
+                            <input type="text" id="Nachname" name="Nachname" class="input-primary md:w-5/6 xl:w-3/4">
+                            <span id="nachnameError" style="color: red;"></span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label for="Anliegen" class="font-bold color-primary text-md">Ihr Anliegen:</label><br>
+                    <textarea id="Anliegen" name="Anliegen" class="border rounded my-2 md:my-5 xl:my-5 w-full h-24 md:h-32 xl:h-32 border-gray-400 px-1"></textarea><br>
+                    <span id="anliegenError" style="color: red;"></span>
+                </div>
+            </div>
+            <input type="submit" value="Absenden" id="submit">
+        </form>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        function validateForm() {
+            var antragsteller = document.getElementById('Antragsteller').value;
+            var partnernetz = document.getElementById('Partnernetz').value;
+            var kundennummer = document.getElementById('Kundennummer').value;
+            var vorname = document.getElementById('Vorname').value;
+            var nachname = document.getElementById('Nachname').value;
+            var anliegen = document.getElementById('Anliegen').value;
+
+            var antragstellerError = document.getElementById('antragstellerError');
+            var partnernetzError = document.getElementById('partnernetzError');
+            var kundennummerError = document.getElementById('kundennummerError');
+            var vornameError = document.getElementById('vornameError');
+            var nachnameError = document.getElementById('nachnameError');
+            var anliegenError = document.getElementById('anliegenError');
+
+            // Reset errors
+            antragstellerError.innerHTML = "";
+            partnernetzError.innerHTML = "";
+            kundennummerError.innerHTML = "";
+            vornameError.innerHTML = "";
+            nachnameError.innerHTML = "";
+            anliegenError.innerHTML = "";
+
+            if (antragsteller === "") {
+                antragstellerError.innerHTML = "Antragsteller darf nicht leer sein";
+                return false;
+            }
+
+            if (partnernetz === "") {
+                partnernetzError.innerHTML = "Partnernetz darf nicht leer sein";
+                return false;
+            }
+
+            if (kundennummer === "") {
+                kundennummerError.innerHTML = "Kundennummer darf nicht leer sein";
+                return false;
+            }
+
+            if (vorname === "") {
+                vornameError.innerHTML = "Vorname darf nicht leer sein";
+                return false;
+            }
+
+            if (nachname === "") {
+                nachnameError.innerHTML = "Nachname darf nicht leer sein";
+                return false;
+            }
+
+            if (anliegen === "") {
+                anliegenError.innerHTML = "Anliegen darf nicht leer sein";
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+</body>
+
+</html>

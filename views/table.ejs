@@ -1,0 +1,130 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>Tabelle mit Details</title>
+    <style>
+        .details {
+            display: none;
+        }
+
+        .details.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="xl:mt-10 md:mt-16 mt-5">
+    <div class="container mx-auto">
+        <form class="max-w-lg mx-3 xl:mx-auto md:mx-auto" action="/table" method="POST">
+            <h1 class="xl:text-2xl text-lg font-bold mb-2 lg:mb-4 color-primary">Wie können wir Ihnen helfen?</h1>
+            <div class="sm:grid-cols-2 gap-4">
+                <h2 class="font-bold color-primary text-md">Ich möchte filtern nach...</h2>
+                <div class="space-y-3 md:space-y-5 flex flex-row text-xs md:text-sm xl:text-sm">
+                    <input type="radio" id="All" name="typefilter" value="All" class="hidden">
+                    <label for="Anfrage" class="radio-primary">All</label>
+    
+                    <input type="radio" id="Anfrage" name="typefilter" value="Anfrage" class="hidden">
+                    <label for="Anfrage" class="radio-primary">Anfragen</label>
+            
+                    <input type="radio" id="Beschwerden" name="typefilter" value="Beschwerden" class="hidden">
+                    <label for="Beschwerden" class="radio-primary">Beschwerden</label>
+            
+                    <input type="radio" id="Störung" name="typefilter" value="Störung" class="hidden">
+                    <label for="Störung" class="radio-primary">Störungen</label>
+            
+                    <input type="radio" id="Beratung" name="typefilter" value="Beratung" class="hidden">
+                    <label for="Beratung" class="radio-primary">Beratungen</label>
+    
+                    <input type="submit" value="Filtern" id="submit">
+                </div>
+            </div>
+        </form>
+        <table class="table table-inverse">
+            <thead>
+                <tr>
+                    <th>Vorname</th>
+                    <th>Nachname</th>
+                    <th>Typ</th>
+                    <th>Details</th>
+                    <th>Aktionen</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (let i = 0; i < data.length; i++) { %>
+                    <tr class="row" data-id="<%= data[i]._id %>">
+                        <td><%= data[i].Vorname %></td>
+                        <td><%= data[i].Nachname %></td>
+                        <td><%= data[i].Typ %></td>
+                        <td class="details active">
+                            <%= data[i].Technik %> <%= data[i].Antragsteller %> <%= data[i].Partnernetz %> <%= data[i].Kundennummer %> <%= data[i].Anliegen %>
+                        </td>
+                        <td>
+                            <button class="delete-button" data-id="<%= data[i]._id %>">Löschen</button>
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+
+   <script>
+    async function sendDeleteRequest(id) {
+        console.log('ID, die gelöscht werden soll:', id);
+        const confirmation = confirm('Möchten Sie diesen Datensatz wirklich löschen?');
+
+        if (confirmation) {
+            try {
+                console.log(id)
+
+                const response = await fetch('/delete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        'id': id
+                    }),
+                });
+
+                const data = await response.text();
+                console.log(data);
+
+                const deletedRow = document.querySelector(`.row[data-id="${id}"]`);
+                if (deletedRow) {
+                    deletedRow.remove();
+                } else {
+                    console.error('Die Zeile wurde nicht gefunden.');
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }
+
+    function deleteButtonClickHandler(event) {
+        const deleteButton = event.target.closest('.delete-button');
+        if (deleteButton) {
+            const id = deleteButton.getAttribute('data-id');
+            if (id) {
+                deleteRow(id);
+            } else {
+                console.error('ID ist undefined oder null.');
+            }
+        }
+    }
+
+    function deleteRow(id) {
+        const confirmation = confirm('Möchten Sie diesen Datensatz wirklich löschen?');
+
+        if (confirmation) {
+            sendDeleteRequest(id);
+        }
+    }
+
+    const table = document.querySelector('.table');
+    table.addEventListener('click', deleteButtonClickHandler);
+</script>
+</body>
+</html> -->
